@@ -25,7 +25,7 @@ func main() {
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
-			http.ServeFile(w, r, "index.html")
+			http.ServeFile(w, r, "static/home.html")
 			return
 		}
 
@@ -53,14 +53,14 @@ func main() {
 			return
 		}
 
-		http.ServeFile(w, r, "chat.html")
+		http.ServeFile(w, r, "static/chat.html")
 	})
 
 	http.HandleFunc("/conn", handleConnection)
 
 	go handleMessages()
 
-	err = http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		panic("Error starting server: " + err.Error())
 	}
