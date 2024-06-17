@@ -2,29 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Go Chat</title>
 </head>
 <body>
-<input id="input" type="text" />
-<button onclick="send()">Send</button>
-<pre id="output"></pre>
-<script>
-    var input = document.getElementById("input");
-    var output = document.getElementById("output");
-    var socket = new WebSocket("ws://localhost:8080/echo");
+    <main>
+        <img src="https://static.wikia.nocookie.net/good-characters/images/5/55/7134C05D-799C-4090-B493-4794C3ED9BBF.png" />
+        <form method="post">
+            <div class="field">
+                <label for="username">Username</label>
+                <input id="username" name="username" type="text" placeholder="Secret Squirrel" />
+            </div>
 
-    socket.onopen = function () {
-        output.innerHTML += "Status: Connected\n";
-    };
+            <div class="field">
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password" />
+            </div>
 
-    socket.onmessage = function (e) {
-        output.innerHTML += "Server: " + e.data + "\n";
-    };
+            <button>Authenticate</button>
+        </form>
+    </main>
+    <style>
+        body {
+            display: grid;
+            place-items: center;
+            min-height: 100dvh;
+        }
 
-    function send() {
-        socket.send(JSON.stringify({ message: input.value, username: "Me" }));
-        input.value = "";
-    }
-</script>
+        form {
+            display: grid;
+            gap: 8px;
+            margin-top: 48px;
+        }
+
+        .field {
+            display: flex;
+            gap: 12px;
+            justify-content: space-between;
+        }
+    </style>
 </body>
 </html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Go Chat</title>
+</head>
+<body>
+    <main>
+        <pre id="output"></pre>
+        <form onsubmit="send(event)">
+            <input id="input" type="text" />
+            <button onclick="">Send</button>
+        </form>
+    </main>
+    <style>
+        body {
+            display: grid;
+            place-items: center;
+            min-height: 100vh;
+        }
+
+        main {
+            width: min(100%, 600px);
+        }
+
+        form {
+            display: flex;
+            gap: 8px;
+        }
+
+        #input {
+            flex: 1;
+        }
+
+        pre {
+            white-space: pre-wrap;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const username = params.get("username");
+            if (username) {
+                localStorage.setItem("username", username);
+            }
+        })
+
+        const input = document.getElementById("input");
+        const output = document.getElementById("output");
+        const socket = new WebSocket("ws://localhost:8080/conn");
+
+        socket.onopen = function () {
+            output.innerHTML += "Status: Connected\n";
+        };
+
+        socket.onmessage = function (e) {
+            const message = JSON.parse(e.data);
+            output.innerHTML += message.username + ": " + message.message + "\n";
+        };
+
+        function send(event) {
+            event.preventDefault();
+            socket.send(JSON.stringify({ message: input.value, username: localStorage.getItem("username") }));
+            input.value = "";
+        }
+    </script>
+</body>
+</html>
