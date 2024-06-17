@@ -19,7 +19,8 @@ services:
       context: .
       target: final
     env_file: .env
-    expose: 8080
+    expose:
+      - 8080
 
 volumes:
   proxy-data:
