@@ -2,8 +2,6 @@ package main
 
 import (
 	"github.com/gorilla/sessions"
-	"github.com/joho/godotenv"
-	"log"
 	"net/http"
 	"os"
 )
@@ -18,10 +16,10 @@ var (
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file", err)
-	}
+	//err := godotenv.Load()
+	//if err != nil {
+	//	log.Println("Error loading .env file", err)
+	//}
 
 	store = sessions.NewCookieStore([]byte(os.Getenv("SESSION_KEY")))
 
